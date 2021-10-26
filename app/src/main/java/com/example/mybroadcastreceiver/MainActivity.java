@@ -84,6 +84,7 @@ public class MainActivity extends AppCompatActivity {
         tglBattary.setChecked(battary.isRegisterd());
         tglSms.setChecked(sms.isRegisterd());
 
+        Toast.makeText(this, "git@github.com:mohamad-ayoub/MyBroadcastReceiver.git", Toast.LENGTH_SHORT).show();
     }
 
     @Override
