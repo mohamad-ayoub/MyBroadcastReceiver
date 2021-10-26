@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    android:orientation="vertical">
+
+    <TextView
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="17dp"
+        android:background="#8BC34A"
+        android:gravity="center"
+        android:text="Broadcast Example-By Ayoub Mohamad"
+        android:textSize="34sp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:background="#E48585"
+        android:gravity="center"
+        android:text="Sms receiver register from manifast.xml"
+        android:textSize="20sp" />
+    <ToggleButton
+        android:id="@+id/tglWifi"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="30dp"
+        android:text="ToggleButton"
+        android:textOff="WIFI" />
+
+    <ToggleButton
+        android:id="@+id/tglLowBattary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="30dp"
+        android:checked="false"
+        android:text="ToggleButton"
+        android:textOff="Low Battary"
+        android:textOn="Low Battary" />
+
+    <ToggleButton
+        android:id="@+id/tglSms"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="30dp"
+        android:textOff="SMS"
+        android:textOn="SMS" />
+
+</LinearLayout>
