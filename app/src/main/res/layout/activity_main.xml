@@ -14,7 +14,7 @@
         android:layout_marginTop="17dp"
         android:background="#8BC34A"
         android:gravity="center"
-        android:text="Broadcast Example-By Ayoub Mohamad"
+        android:text="Broadcast, Notification and AlarmManager Example-By Ayoub Mohamad"
         android:textSize="34sp" />
 
     <TextView
@@ -23,7 +23,7 @@
         android:layout_marginTop="16dp"
         android:background="#E48585"
         android:gravity="center"
-        android:text="Sms receiver register from manifast.xml"
+        android:text="Sms receiver register from manifast.xml - notification included"
         android:textSize="20sp" />
     <ToggleButton
         android:id="@+id/tglWifi"
@@ -50,5 +50,13 @@
         android:layout_margin="30dp"
         android:textOff="SMS"
         android:textOn="SMS" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:onClick="setAlarm"
+        android:text="set alarm after 5 sec" />
 
 </LinearLayout>

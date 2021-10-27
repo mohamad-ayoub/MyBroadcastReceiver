@@ -2,18 +2,28 @@ package com.example.mybroadcastreceiver;
 
 import static android.provider.Telephony.Sms.Intents.SMS_RECEIVED_ACTION;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
+import android.app.AlarmManager;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.Toast;
 import android.widget.ToggleButton;
+
+import java.util.Calendar;
 
 public class MainActivity extends AppCompatActivity {
     MySmsReceiver sms;
@@ -21,11 +31,18 @@ public class MainActivity extends AppCompatActivity {
     MyBattaryReceiver battary;
     ToggleButton tglWifi, tglSms, tglBattary;
 
+    @SuppressLint("NewApi")
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        if (getIntent().hasExtra("NOTIFICATION_ID")) {
+            int id = getIntent().getExtras().getInt("NOTIFICATION_ID");
+            Toast.makeText(this, "activated by notification", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Notification Id:  " + id, Toast.LENGTH_LONG).show();
+        }
 
         wifi = new MyWifiReceiver(this);
         sms = new MySmsReceiver(this);
@@ -84,8 +101,8 @@ public class MainActivity extends AppCompatActivity {
         tglBattary.setChecked(battary.isRegisterd());
         tglSms.setChecked(sms.isRegisterd());
 
-        Toast.makeText(this, "git@github.com:mohamad-ayoub/MyBroadcastReceiver.git", Toast.LENGTH_SHORT).show();
     }
+
 
     @Override
     protected void onResume() {
@@ -108,5 +125,21 @@ public class MainActivity extends AppCompatActivity {
         wifi.unRregister();
         battary.unRegister();
         sms.unRegister();
+    }
+
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    public void setAlarm(View view) {
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+
+        Intent intent = new Intent(this, AlarmReceiver.class);
+        PendingIntent pendingIntent=PendingIntent.getBroadcast(getApplicationContext(),0,intent,PendingIntent.FLAG_UPDATE_CURRENT);
+
+        Calendar cal = Calendar.getInstance();
+        cal.set(Calendar.HOUR_OF_DAY, cal.get(Calendar.HOUR_OF_DAY));  // set hour
+        cal.set(Calendar.MINUTE, cal.get(Calendar.MINUTE));          // set minute
+        cal.set(Calendar.SECOND, cal.get(Calendar.SECOND)+5);               // set seconds
+
+        alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP,cal.getTimeInMillis(),pendingIntent);
+        finish();
     }
 }
