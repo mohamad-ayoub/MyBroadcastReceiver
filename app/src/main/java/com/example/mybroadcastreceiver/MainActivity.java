@@ -2,6 +2,7 @@ package com.example.mybroadcastreceiver;
 
 import static android.provider.Telephony.Sms.Intents.SMS_RECEIVED_ACTION;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -18,6 +19,8 @@ import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.Toast;
@@ -40,8 +43,11 @@ public class MainActivity extends AppCompatActivity {
 
         if (getIntent().hasExtra("NOTIFICATION_ID")) {
             int id = getIntent().getExtras().getInt("NOTIFICATION_ID");
-            Toast.makeText(this, "activated by notification", Toast.LENGTH_SHORT).show();
-            Toast.makeText(this, "Notification Id:  " + id, Toast.LENGTH_LONG).show();
+            String phone = getIntent().getExtras().getString("NOTIFICATION_PHONE_NO");
+            final String body=getIntent().getExtras().getString("NOTIFICATION_BODY");
+
+            Toast.makeText(this, "activated by notification:" + id, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Notification from:  " + phone + ":\n" + body, Toast.LENGTH_LONG).show();
         }
 
         wifi = new MyWifiReceiver(this);
@@ -141,5 +147,17 @@ public class MainActivity extends AppCompatActivity {
 
         alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP,cal.getTimeInMillis(),pendingIntent);
         finish();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.my_menu,menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        Toast.makeText(this, item.getTitle() + " clicked", Toast.LENGTH_SHORT).show();
+        return super.onOptionsItemSelected(item);
     }
 }

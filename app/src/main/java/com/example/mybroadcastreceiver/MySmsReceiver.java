@@ -1,6 +1,7 @@
 package com.example.mybroadcastreceiver;
 
 import static android.Manifest.permission.GET_ACCOUNTS;
+import static android.app.PendingIntent.FLAG_UPDATE_CURRENT;
 import static android.content.Intent.ACTION_BATTERY_LOW;
 import static android.content.Intent.ACTION_BATTERY_OKAY;
 import static android.provider.Telephony.Sms.Intents.SMS_RECEIVED_ACTION;
@@ -75,7 +76,7 @@ public class MySmsReceiver extends BroadcastReceiver {
     }
 
 
-    private void createAndShowSMSNotification(Context context, String phone, String message) {
+    private void createAndShowSMSNotification(Context context, final String phone, final String message) {
         NotificationChannel channel1 = null;
         NotificationManager manager = null;
         Log.d(TAG, "createAndShowSMSNotification: ");
@@ -101,12 +102,13 @@ public class MySmsReceiver extends BroadcastReceiver {
 
         Bundle extras = new Bundle();
         extras.putInt("NOTIFICATION_ID",notificationId);
-        extras.putCharArray("NOTIFICATION_PHONE_NO",phone.toCharArray());
-        extras.putInt("NOTIFICATION_BODY",333333);
+        extras.putString("NOTIFICATION_PHONE_NO",phone);
+        extras.putString("NOTIFICATION_BODY",message);
         notifyIntent.putExtras(extras);
 
         PendingIntent notifyPendingIntent = PendingIntent.getActivity(
-                context, notificationId, notifyIntent, 0);
+                context, notificationId, notifyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        notifyIntent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
 
         Notification notification = new NotificationCompat.Builder(context, CHANAL_ID).
                 setSmallIcon(R.drawable.ic_launcher_foreground)
